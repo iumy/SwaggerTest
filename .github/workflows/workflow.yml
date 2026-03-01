@@ -27,6 +27,7 @@ jobs:
           python3 -c "
           import json, connexion
           from flask_swagger import swagger
+          from pdfserver.controllers import default_controller 
           from pdfserver import encoder
           app = connexion.App(__name__, specification_dir='./pdfserver/swagger/')
           app.app.json_encoder = encoder.JSONEncoder
