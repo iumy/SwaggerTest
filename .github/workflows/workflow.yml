@@ -23,14 +23,18 @@ jobs:
         run: |
           pip install "connexion[flask]<3.0" flask-swagger setuptools -r requirements.txt
           export PYTHONPATH=$PYTHONPATH:.
-          
+          # We MUST call add_api to register the routes into the Flask map
           python3 -c "
           import json, connexion
           from flask_swagger import swagger
           from pdfserver.controllers import default_controller 
           from pdfserver import encoder
+          # 1. Create the app
           app = connexion.App(__name__, specification_dir='./pdfserver/swagger/')
           app.app.json_encoder = encoder.JSONEncoder
+          # 2. IMPORTANT: Load the API so routes are registered
+          app.add_api('swagger.yaml')
+          # 3. Extract the swagger from the now-populated Flask map
           print(json.dumps(swagger(app.app)))
           " > code_first.json
       - name: Build Code-First UI
