@@ -21,7 +21,7 @@ jobs:
           python-version: '3.x'
       - name: Generate Code-First Spec
         run: |
-          pip install flask-swagger
+          pip install flask-swagger setuptools  
           flaskswagger pdfserver.__main__:app > code_first.json
       - name: Build Code-First UI
         uses: Legion2/swagger-ui-action@v1
