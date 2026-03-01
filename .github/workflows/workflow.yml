@@ -37,14 +37,17 @@ jobs:
         with:
           output: public/code-first
           spec-file: code_first.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # 2. Use existing Stub spec
       - name: Build Design-First UI
         uses: Legion2/swagger-ui-action@v1
         with:
           output: public/design-first
-          # Adjust this path to where your stub's yaml file is
           spec-file: 'pdfserver/swagger/swagger.yaml' 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # 3. Deployment to a single GitHub Pages site
       - name: Setup Pages
