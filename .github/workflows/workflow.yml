@@ -46,6 +46,19 @@ jobs:
       # 3. Deployment to a single GitHub Pages site
       - name: Setup Pages
         uses: actions/configure-pages@v4
+      - name: Create Landing Page
+        run: |
+          cat <<EOF > public/index.html
+          <html>
+            <body>
+              <h1>API Documentation Exercise</h1>
+              <ul>
+                <li><a href="code-first/">Code-First Approach (Generated from Flask)</a></li>
+                <li><a href="design-first/">Design-First Approach (Swagger Stub)</a></li>
+              </ul>
+            </body>
+          </html>
+          EOF
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
