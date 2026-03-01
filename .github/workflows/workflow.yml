@@ -42,6 +42,7 @@ jobs:
         with:
           output: public/code-first
           spec-file: code_first.json
+          swagger-ui-config: '{"url": "code_first.json"}' 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
