@@ -21,11 +21,17 @@ jobs:
           python-version: '3.12'
       - name: Generate Code-First Spec
         run: |
-          pip install "connexion[flask]<3.0" flask-swagger setuptools
-          pip install -r requirements.txt
+          pip install "connexion[flask]<3.0" flask-swagger setuptools -r requirements.txt
           export PYTHONPATH=$PYTHONPATH:.
-          # 4. Generate the JSON (using 'swagger' function)
-          python3 -c "import json; from flask_swagger import swagger; from pdfserver.__main__ import app; print(json.dumps(swagger(app.app)))" > code_first.json
+          
+          python3 -c "
+          import json, connexion
+          from flask_swagger import swagger
+          from pdfserver import encoder
+          app = connexion.App(__name__, specification_dir='./pdfserver/swagger/')
+          app.app.json_encoder = encoder.JSONEncoder
+          print(json.dumps(swagger(app.app)))
+          " > code_first.json
       - name: Build Code-First UI
         uses: Legion2/swagger-ui-action@v1
         with:
