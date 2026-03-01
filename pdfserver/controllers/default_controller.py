@@ -17,6 +17,11 @@ def extract_text_from_pdf(body, subscription_key):  # noqa: E501
     :type subscription_key: str
 
     :rtype: InlineResponse200
+
+    ---
+    responses:
+      200:
+        description: PDF text extracted successfully (Code-First)
     """
     if connexion.request.is_json:
         body = ExtracttextBody.from_dict(connexion.request.get_json())  # noqa: E501
