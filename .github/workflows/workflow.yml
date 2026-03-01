@@ -22,7 +22,8 @@ jobs:
       - name: Generate Code-First Spec
         run: |
           run: |
-          pip install flask-swagger setuptools
+          pip install setuptools
+          pip install flask-swagger
           pip install -r requirements.txt
           
           export PYTHONPATH=$PYTHONPATH:.
