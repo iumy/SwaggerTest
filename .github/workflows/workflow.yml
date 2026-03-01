@@ -28,7 +28,7 @@ jobs:
           export PYTHONPATH=$PYTHONPATH:.
           
           # Generate the JSON spec
-          flaskswagger pdfserver.__main__:app > code_first.json
+          python -c "from flask_swagger import flask_swagger; import json; from pdfserver.__main__ import app; print(json.dumps(flask_swagger(app.app)))" > code_first.json
       - name: Build Code-First UI
         uses: Legion2/swagger-ui-action@v1
         with:
