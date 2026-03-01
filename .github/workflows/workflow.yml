@@ -1,0 +1,48 @@
+name: Deploy Dual API Documentation
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 1. Generate from Flask code
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Generate Code-First Spec
+        run: |
+          pip install flask-swagger
+          flaskswagger pdfserver.__main__:app > code_first.json
+      - name: Build Code-First UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: public/code-first
+          spec-file: code_first.json
+
+      # 2. Use existing Stub spec
+      - name: Build Design-First UI
+        uses: Legion2/swagger-ui-action@v1
+        with:
+          output: public/design-first
+          # Adjust this path to where your stub's yaml file is
+          spec-file: 'pdfserver/swagger/swagger.yaml' 
+
+      # 3. Deployment to a single GitHub Pages site
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'public'  # Uploads the 'public' folder containing both subdirectories
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
