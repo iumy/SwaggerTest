@@ -48,6 +48,10 @@ jobs:
 
       - name: Copy Specs to Public Folders
         run: |
+          mkdir -p public/code-first
+          mkdir -p public/design-first
+          
+          # Copy the specs into the folders with names the UI expects
           cp code_first.json public/code-first/
           cp pdfserver/swagger/swagger.yaml public/design-first/
       
