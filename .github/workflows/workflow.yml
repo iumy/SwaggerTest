@@ -46,6 +46,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Copy Specs to Public Folders
+        run: |
+          cp code_first.json public/code-first/
+          cp pdfserver/swagger/swagger.yaml public/design-first/
+      
       # 2. Use existing Stub spec
       - name: Build Design-First UI
         uses: Legion2/swagger-ui-action@v1
@@ -54,7 +59,7 @@ jobs:
           spec-file: 'pdfserver/swagger/swagger.yaml' 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          
       # 3. Deployment to a single GitHub Pages site
       - name: Setup Pages
         uses: actions/configure-pages@v4
