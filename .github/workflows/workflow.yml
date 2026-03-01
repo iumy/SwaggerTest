@@ -21,7 +21,6 @@ jobs:
           python-version: '3.12'
       - name: Generate Code-First Spec
         run: |
-          run: |
           pip install setuptools
           pip install flask-swagger
           pip install -r requirements.txt
