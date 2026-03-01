@@ -1,0 +1,55 @@
+openapi: 3.0.0
+info:
+  title: PDF Text Extraction API
+  description: API to extract text from a PDF file (scanned or text based)
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /extract-text:
+    post:
+      summary: Extract text from a PDF file
+      operationId: extract_text_from_pdf
+      parameters:
+      - name: subscription_key
+        in: header
+        description: Valid subscription key
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/extracttext_body"
+        required: true
+      responses:
+        "200":
+          description: Text extracted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/inline_response_200"
+        "400":
+          description: Invalid input
+        "401":
+          description: Unauthorized - invalid subscription key
+      x-openapi-router-controller: pdfserver.controllers.default_controller
+components:
+  schemas:
+    extracttext_body:
+      type: object
+      properties:
+        pdfBase64:
+          type: string
+          description: PDF file content encoded in base64
+    inline_response_200:
+      type: object
+      properties:
+        extractedText:
+          type: string
+      example:
+        extractedText: extractedText
+
