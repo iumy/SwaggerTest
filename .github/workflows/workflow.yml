@@ -18,10 +18,16 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.12'
       - name: Generate Code-First Spec
         run: |
-          pip install flask-swagger setuptools  
+          run: |
+          pip install flask-swagger setuptools
+          pip install -r requirements.txt
+          
+          export PYTHONPATH=$PYTHONPATH:.
+          
+          # Generate the JSON spec
           flaskswagger pdfserver.__main__:app > code_first.json
       - name: Build Code-First UI
         uses: Legion2/swagger-ui-action@v1
